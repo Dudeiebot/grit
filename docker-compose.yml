@@ -1,0 +1,54 @@
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./wallet_config
+      dockerfile: Dockerfile
+    volumes:
+      - ./wallet_config:/app # Fixed typo: app not ap1
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=core_config.settings.prod
+    env_file:
+      - ./.env # Simplified path to .env file
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  # Database service
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
