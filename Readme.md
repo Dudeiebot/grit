@@ -53,5 +53,5 @@ make migrate
 ngrok http 8000
 ```
 
-- go to the Monnify dashboard and attach this urls to the Transaction completion box `http://<url-provided-by-ngrok>/api/v1/wallet/webhook/monnify`
+- go to the Monnify dashboard and attach this urls to the Transaction completion box `https://<url-provided-by-ngrok>/api/v1/wallet/webhook/monnify`
   - start receiving calls
