@@ -28,6 +28,8 @@ cd grit
 cp .env.example .env
 ```
 
+- make sure your port 80 and 443 are opened
+
 ### 3. Run with Makefile
 
 ```bash
